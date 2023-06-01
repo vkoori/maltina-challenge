@@ -1,0 +1,41 @@
+server {
+    listen                          80;
+    listen                          [::]:80;
+    server_name                     maltina.local;
+    return 301                      https://maltina.local$request_uri;
+}
+
+server {
+    listen                          443 ssl http2;
+    listen                          [::]:443;
+    server_name                     maltina.local;
+    index                           index.php;
+    root                            /var/www/html/maltina-php/public;
+
+    add_header                      X-Frame-Options "SAMEORIGIN";
+    add_header                      X-XSS-Protection "1; mode=block";
+    add_header                      X-Content-Type-Options "nosniff";
+
+    client_max_body_size            15M;
+
+    ssl_certificate                 /etc/ssl/public.crt;
+    ssl_certificate_key             /etc/ssl/private.key;
+
+    access_log                      /var/log/nginx/main-access.log;
+    error_log                       /var/log/nginx/main-error.log;
+
+    location / {
+        try_files                   $uri $uri/ /index.php?$query_string;
+        gzip_static on;
+    }
+
+    location ~ \.php$ {
+        try_files                   $uri =404;
+        fastcgi_split_path_info     ^(.+\.php)(/.+)$;
+        fastcgi_pass                maltina-php:9000;
+        fastcgi_index               index.php;
+        include                     fastcgi_params;
+        fastcgi_param               SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param               PATH_INFO $fastcgi_path_info;
+    }
+}
