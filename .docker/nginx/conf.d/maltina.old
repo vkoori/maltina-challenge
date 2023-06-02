@@ -21,8 +21,8 @@ server {
     ssl_certificate                 /etc/ssl/public.crt;
     ssl_certificate_key             /etc/ssl/private.key;
 
-    access_log                      /var/log/nginx/main-access.log;
-    error_log                       /var/log/nginx/main-error.log;
+    access_log                      /var/log/nginx/maltina-access.log;
+    error_log                       /var/log/nginx/maltina-error.log;
 
     location / {
         try_files                   $uri $uri/ /index.php?$query_string;

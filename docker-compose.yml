@@ -16,6 +16,7 @@ x-maltina-common:
         - ./.docker/php/config/maltina.ini:/usr/local/etc/php/conf.d/maltina.ini
     networks:
         - maltina-net
+        - mailhog-net
 
 services:
     #################### maltina-nginx ####################
@@ -55,6 +56,7 @@ services:
         networks:
             - external-net
             - maltina-net
+            - mailhog-net
 
     #################### maltina-queue ####################
     maltina-queue:
@@ -128,11 +130,27 @@ services:
         networks:
             - maltina-net
 
+    #################### mailhog ####################
+    mailhog:
+        image: mailhog/mailhog:v1.0.1
+        container_name: mailhog
+        logging:
+            driver: 'none' # disable saving logs
+        ports:
+            - 1025:1025 # smtp server
+            - 8025:8025 # web ui
+        networks:
+            - external-net
+            - mailhog-net
+
 # Networks
 networks:
     external-net:
         driver: bridge
     maltina-net:
+        driver: bridge
+        external: false
+    mailhog-net:
         driver: bridge
         external: false
 
