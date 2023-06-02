@@ -8,6 +8,7 @@ use App\Models\Relations\OrderRelations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
-    use HasFactory, OrderRelations;
+    use HasFactory, OrderRelations, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -45,5 +46,15 @@ class Order extends Model
     public function scopeUserId(Builder $query, int $userId)
     {
         return $query->where('user_id', $userId);
+    }
+
+    public function scopeIds(Builder $query, array $orderIds)
+    {
+        return $query->whereIn('id', $orderIds);
+    }
+
+    public function scopeInvoiceId(Builder $query, string $invoiceId)
+    {
+        return $query->where('invoice_id', $invoiceId);
     }
 }

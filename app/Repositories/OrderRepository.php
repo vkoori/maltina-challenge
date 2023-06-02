@@ -8,6 +8,7 @@ use App\Enums\StatusOrder;
 use App\Models\Order;
 use App\Dto\OrderList as DtoOrderList;
 use App\Dto\OrderObject as DtoOrderObject;
+use Illuminate\Support\Collection;
 
 class OrderRepository extends BaseReadRepository implements ConstraintOrderRepository
 {
@@ -66,4 +67,30 @@ class OrderRepository extends BaseReadRepository implements ConstraintOrderRepos
         $order->saveOrFail();
         return $order;
     }
+
+    public function getOrders(array $orderIds, ?string $invoiceId = null, ?int $userId = null): Collection
+    {
+        $query = $this
+            ->getModel()
+            ->query()
+            ->ids($orderIds);
+
+        if ($invoiceId) {
+            $query->invoiceId($invoiceId);
+        }
+        if ($userId) {
+            $query->userId($userId);
+        }
+
+        return $query->get();
+    }
+
+    public function delete(array $orderIds): bool
+    {
+        return $this
+            ->getModel()
+            ->ids($orderIds)
+            ->delete();
+    }
+
 }

@@ -6,6 +6,7 @@ use App\Dto\OrderList as DtoOrderList;
 use App\Enums\Location;
 use App\Enums\StatusOrder;
 use App\Models\Order;
+use Illuminate\Support\Collection;
 
 interface OrderRepository extends BaseReadRepository
 {
@@ -20,4 +21,6 @@ interface OrderRepository extends BaseReadRepository
     ): Order;
     public function bulkOrderSave(string $uuid, DtoOrderList $items): bool;
     public function updateStatus(Order $order, StatusOrder $status): Order;
+    public function getOrders(array $orderIds, ?string $invoiceId = null, ?int $userId = null): Collection;
+    public function delete(array $orderIds): bool;
 }
