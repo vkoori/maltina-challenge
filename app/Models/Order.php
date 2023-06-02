@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
+ * @property int $user_id
  * @property string $invoice_id
  * @property int $product_id
  * @property ?int $type_id
@@ -23,7 +24,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'type_id', 'count', 'price', 'consume_location', 'status'];
+    protected $fillable = ['user_id', 'product_id', 'type_id', 'count', 'price', 'consume_location', 'status'];
 
     protected $casts = [
         'consume_location' => Location::class,

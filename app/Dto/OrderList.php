@@ -11,10 +11,12 @@ class OrderList
     private Collection $order;
     private array $poolOrders;
     private string $uuid;
+    private int $userId;
 
     public function __construct(Store $request)
     {
         $orders = $request->validated()['order'];
+        $this->userId = $request->attributes->get('userId');
         $this->order = collect();
 
         foreach ($orders as $order) {
@@ -46,6 +48,11 @@ class OrderList
     public function getInvoiceId(): string
     {
         return $this->uuid;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->userId;
     }
 
     private function fillPoolOrder(array $order): OrderObject

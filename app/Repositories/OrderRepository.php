@@ -17,6 +17,7 @@ class OrderRepository extends BaseReadRepository implements ConstraintOrderRepos
     }
 
     public function singleOrderSave(
+        int $userId,
         string $uuid,
         int $productId,
         ?int $typeId,
@@ -26,6 +27,7 @@ class OrderRepository extends BaseReadRepository implements ConstraintOrderRepos
     ): Order {
         /** @var Order $order */
         $order = $this->getModel();
+        $order->user_id = $userId;
         $order->invoice_id = $uuid;
         $order->product_id = $productId;
         $order->type_id = $typeId;
@@ -39,10 +41,12 @@ class OrderRepository extends BaseReadRepository implements ConstraintOrderRepos
 
     public function bulkOrderSave(string $uuid, DtoOrderList $items): bool
     {
+        $userId = $items->getUserId();
         $payload = [];
 
-        $items->getOrders()->each(function (DtoOrderObject $item) use (&$payload, $uuid) {
+        $items->getOrders()->each(function (DtoOrderObject $item) use (&$payload, $uuid, $userId) {
             array_push($payload, [
+                'user_id'           => $userId,
                 'invoice_id'        => $uuid,
                 'product_id'        => $item->getProductId(),
                 'type_id'           => $item->getTypeId(),
