@@ -13,11 +13,11 @@ class JwtChecker
     {
         $authorization = $request->header(key: 'Authorization', default: '');
 
-        if (empty($authorization)) {
+        if (!is_int($authorization)) {
             throw new JwtException;
         }
 
-        $request->attributes->set('userId', 1);
+        $request->attributes->set('userId', $authorization);
 
         return $next($request);
     }

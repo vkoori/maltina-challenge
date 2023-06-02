@@ -1,8 +1,7 @@
 ## Assumptions
 
 1. I imagined that each product only accepts one group of types. If the number of type groups was unlimited, I would use non-relational databases.
-2. Everything sent in the Authorization header is valid. (we can modify `JwtChecker::class`)
-3. `userId` is always equal to 1. (we can modify `JwtChecker::class`)
+2. Instead of using real jwt, we send a number in the Authorization header. (`JwtChecker::class`)
 
 ## Installation
 ![Installation](./storage/readme/docker.png "Dockerize")
