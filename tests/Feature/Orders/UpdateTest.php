@@ -4,6 +4,7 @@ namespace Tests\Feature\Orders;
 
 use App\Enums\StatusOrder;
 use App\Models\Order as ModelsOrder;
+use Database\Seeders\OrderSeeder;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Notification;
@@ -25,6 +26,7 @@ class UpdateTest extends TestCase
 
     public function test_email_should_be_sent_when_status_is_updated(): void
     {
+        // $this->seed(OrderSeeder::class);
         $customer = User::factory()->create();
         $order = ModelsOrder::factory()->create(attributes: [
             'user_id' => $customer->id
