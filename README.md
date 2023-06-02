@@ -1,6 +1,7 @@
 ## Assumptions
 
 1. I imagined that each product only accepts one group of types. If the number of type groups was unlimited, I would use non-relational databases.
+2. Everything sent in the Authorization header is valid.
 
 ## Installation
 ![Installation](./storage/readme/docker.png "Dockerize")
@@ -13,7 +14,7 @@
 
 ### Attention
 1. Set `maltina.local` in your `hosts` file. which should point to 127.0.0.1
-2. In `docker compose` we mounted all entire files with container, so we override the file permissions and need add permission to `storage` and `bootstrap` manually (in real project, we don't sync these directories).
+2. In `docker compose` we mounted all entire files with container, ***so we override the file permissions*** and need add permission to `storage` and `bootstrap` manually (in real project, we don't sync these directories).
 3. If you want to use https. Place the corresponding keys in [path](./.docker/nginx/ssl/) and activate [this](./.docker/nginx/conf.d/maltina.old) configuration, then restart nginx.
 
 ## Running test
@@ -30,3 +31,7 @@ for run test follow this steps:
 ```shell
 docker exec -it maltina-php php artisan test --testsuite Feature --path tests/Feature/
 ```
+
+### Postamn
+
+`https://www.postman.com/maltina/workspace/challenge`

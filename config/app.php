@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\QueryProvider;
+use App\Providers\ResponseProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -83,7 +85,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('LANG', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +170,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        ResponseProvider::class,
+        QueryProvider::class,
     ])->toArray(),
 
     /*
