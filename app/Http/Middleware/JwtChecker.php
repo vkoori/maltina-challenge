@@ -11,9 +11,9 @@ class JwtChecker
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $authorization = $request->header(key: 'Authorization', default: '');
+        $authorization = (int) $request->header(key: 'Authorization', default: '');
 
-        if (!is_int($authorization)) {
+        if ($authorization == 0) {
             throw new JwtException;
         }
 

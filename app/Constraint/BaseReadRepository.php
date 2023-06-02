@@ -8,6 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface BaseReadRepository extends BaseRepository
 {
     public function paginate(
+        array $filters = [],
         int $perPage = 10,
         array $columns = ['*'],
         array $relations = [],
