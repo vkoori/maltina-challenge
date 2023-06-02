@@ -19,7 +19,7 @@ class IndexTest extends TestCase
         $this->seed(OrderSeeder::class);
 
         $customer = ModelsUser::factory()->create();
-        $order = ModelsOrder::factory()->create(attributes: [
+        ModelsOrder::factory()->create(attributes: [
             'user_id' => $customer->id,
             'status' => StatusOrder::WAITING->value,
         ]);
@@ -32,54 +32,49 @@ class IndexTest extends TestCase
 
         $response->assertStatus(200);
 
-        $response->assertJsonStructure(
-            structure: [
-                "error",
-                "status",
-                "message",
+        $response->assertJsonStructure(structure: [
+            "error",
+            "status",
+            "message",
+            "data" => [
+                "paginate" => [
+                    "currentPage",
+                    "lastPage",
+                    "total",
+                ],
                 "data" => [
-                    "paginate" => [
-                        "currentPage",
-                        "lastPage",
-                        "total",
-                    ],
-                    "data",
-                ]
+                    [
+                        "order_id",
+                        "product" => [
+                            "product_id",
+                            "product_name",
+                            "groups",
+                            "prices"
+                        ],
+                        "type",
+                        "count",
+                        "price",
+                        "location",
+                        "status",
+                        "created_at"
+                    ]
+                ],
             ],
-            responseData: [
-                "error" => false,
-                "status" => 200,
-                "message" => __('general.success'),
-                "data" => [
-                    "paginate" => [
-                        "currentPage" => 1,
-                        "lastPage" => 1,
-                        "total" => 1,
-                    ],
-                    "data" => [
-                        [
-                            // "product_id" => 1,
-                            // "product_name" => $product->name,
-                            // "groups" => [
-                            //     "group_id" => $typeGroup->id,
-                            //     "group_name" => $typeGroup->name,
-                            //     "types" => [
-                            //         [
-                            //             "type_id" => $type->id,
-                            //             "type_name" => $type->name
-                            //         ]
-                            //     ]
-                            // ],
-                            // "prices" => [
-                            //     [
-                            //         "type_id" => null,
-                            //         "price" => $price->price
-                            //     ]
-                            // ]
-                        ]
-                    ],
+            "meta" => [
+                "location" => [
+                    "IN_SHOP",
+                    "OUT_SHOP",
+                ],
+                "status" => [
+                    "WAITING",
+                    "PREPARATION",
+                    "READY",
+                    "DELIVERED"
                 ]
-            ],
-        );
+            ]
+        ]);
+
+        $this->assertEquals(expected: $response->json()['data']['paginate']['total'], actual: 1);
+        $this->assertEquals(expected: ModelsOrder::count(), actual: 2);
     }
 }

@@ -14,4 +14,12 @@ class OrderMeta
 
         return compact('location', 'status');
     }
+
+    public static function list(): array
+    {
+        $location = Location::keyValue();
+        $status = StatusOrder::keyValue();
+
+        return compact('location', 'status');
+    }
 }
