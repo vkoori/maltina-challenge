@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('types', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('type_group_id');
-            $table->string('name');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('type_id')->nullable();
+            $table->unsignedTinyInteger('count');
+            $table->unsignedTinyInteger('consume_location');
             $table->timestamps();
 
-            $table->foreign('type_group_id')->on('type_groups')->references('id')->cascadeOnUpdate();
+            $table->foreign('product_id')->on('products')->references('id')->cascadeOnUpdate();
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('types');
+        Schema::dropIfExists('orders');
     }
 };
