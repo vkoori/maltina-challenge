@@ -9,6 +9,7 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     protected array $headerRequest;
+    private string $jwt = "1";
 
     protected function setUp(): void
     {
@@ -17,7 +18,12 @@ abstract class TestCase extends BaseTestCase
         $this->headerRequest = [
             'Accept' => 'application/json',
             'Accept-Language' => 'fa',
-            'Authorization' => 'fake jwt'
+            'Authorization' => $this->jwt
         ];
+    }
+
+    protected function setUser(int $userId)
+    {
+        $this->jwt = $userId;
     }
 }
