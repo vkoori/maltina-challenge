@@ -23,7 +23,7 @@ class IndexTest extends TestCase
         $this->artisan('migrate --path=/database/migrations/2023_06_02_035355_create_types_table.php');
 
         $this->beforeApplicationDestroyed(function () {
-            $this->artisan('migrate:rollback');
+            $this->artisan('migrate:rollback --step=4');
         });
     }
 

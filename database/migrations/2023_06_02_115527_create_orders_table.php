@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->char('invoice_id', 36)->index();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('type_id')->nullable();
             $table->unsignedTinyInteger('count');
+            $table->double('price')->comment('per unit');
             $table->unsignedTinyInteger('consume_location');
+            $table->unsignedTinyInteger('status');
             $table->timestamps();
 
             $table->foreign('product_id')->on('products')->references('id')->cascadeOnUpdate();
