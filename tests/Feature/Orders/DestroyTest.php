@@ -20,7 +20,7 @@ class DestroyTest extends TestCase
         ]);
 
         $response = $this->delete(
-            uri: route(name: 'api.v1.admin.orders.cancel', parameters: ['invoiceId' => $order->invoice_id]),
+            uri: route(name: 'api.v1.user.orders.cancel', parameters: ['invoiceId' => $order->invoice_id]),
             headers: $this->headerRequest
         );
 
@@ -37,7 +37,7 @@ class DestroyTest extends TestCase
         ]);
 
         $response = $this->delete(
-            uri: route(name: 'api.v1.admin.orders.cancel', parameters: ['invoiceId' => $order->invoice_id]),
+            uri: route(name: 'api.v1.user.orders.cancel', parameters: ['invoiceId' => $order->invoice_id]),
             headers: $this->headerRequest
         );
 

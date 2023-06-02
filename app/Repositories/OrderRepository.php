@@ -92,5 +92,19 @@ class OrderRepository extends BaseReadRepository implements ConstraintOrderRepos
             ->ids($orderIds)
             ->delete();
     }
+    public function getByInvoiceId(string $invoiceId): Collection
+    {
+        return $this
+            ->getModel()
+            ->invoiceId($invoiceId)
+            ->get();
+    }
 
+    public function deleteByInvoiceId(string $invoiceId): bool
+    {
+        return $this
+            ->getModel()
+            ->invoiceId($invoiceId)
+            ->delete();
+    }
 }

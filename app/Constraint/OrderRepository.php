@@ -23,4 +23,6 @@ interface OrderRepository extends BaseReadRepository
     public function updateStatus(Order $order, StatusOrder $status): Order;
     public function getOrders(array $orderIds, ?string $invoiceId = null, ?int $userId = null): Collection;
     public function delete(array $orderIds): bool;
+    public function getByInvoiceId(string $invoiceId): Collection;
+    public function deleteByInvoiceId(string $invoiceId): bool;
 }

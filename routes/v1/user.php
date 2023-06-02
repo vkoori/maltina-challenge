@@ -6,3 +6,4 @@ use App\Http\Controllers\V1\User\Order;
 
 Route::resource('orders', Order::class)->middleware(Transaction::class)->only(['store', 'index']);
 Route::patch('orders/{invoiceId}', [Order::class, 'update'])->middleware(Transaction::class)->name('orders.update');
+Route::delete('orders/{invoiceId}', [Order::class, 'cancel'])->middleware(Transaction::class)->name('orders.cancel');

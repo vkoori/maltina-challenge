@@ -16,6 +16,8 @@ use Illuminate\Support\Collection;
  * @method static Order updateStatus(Order $order, StatusOrder $status)
  * @method static Collection getOrders(array $orderIds, ?string $invoiceId = null, ?int $userId = null)
  * @method static boolean delete(array $orderIds)
+ * @method static Collection getByInvoiceId(string $invoiceId)
+ * @method static boolean deleteByInvoiceId(string $invoiceId)
  *
 * @see \App\Constraint\PriceRepository::class
  */
