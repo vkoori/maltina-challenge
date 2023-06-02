@@ -37,3 +37,9 @@ docker exec -it maltina-php php artisan test --testsuite Feature --path tests/Fe
 ```shell
 https://www.postman.com/maltina/workspace/challenge
 ```
+
+### Timing
+
+Here is a snapshot of the time I recorded this project. But you should keep in mind that I was doing my personal work in parallel with this task.
+
+![Timing](./storage/readme/timing.png "timing.png")
