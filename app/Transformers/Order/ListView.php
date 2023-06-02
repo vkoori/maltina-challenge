@@ -16,6 +16,7 @@ class ListView extends ResourceCollection
         return $this->collection->map(function (Order $order) {
             return [
                 'order_id'      => $order->id,
+                'invoice_id'    => $order->invoice_id,
                 'product'       => $order->relationLoaded('product')
                     ? ProductObjectView::make($order->product)
                     : $order->product_id,
