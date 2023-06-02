@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\ObserverProvider;
 use App\Providers\QueryProvider;
 use App\Providers\ResponseProvider;
 use Illuminate\Support\Facades\Facade;
@@ -173,6 +174,7 @@ return [
 
         ResponseProvider::class,
         QueryProvider::class,
+        ObserverProvider::class,
     ])->toArray(),
 
     /*

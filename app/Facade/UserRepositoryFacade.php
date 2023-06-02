@@ -12,10 +12,10 @@ use Illuminate\Support\Facades\Facade;
  *
 * @see \App\Constraint\ProductRepository::class
  */
-class ProductRepositoryFacade extends Facade
+class UserRepositoryFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'product-queries';
+        return 'user-queries';
     }
 }

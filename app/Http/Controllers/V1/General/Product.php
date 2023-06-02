@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\V1;
+namespace App\Http\Controllers\V1\General;
 
 use App\Facade\ProductRepositoryFacade;
 use App\Facade\SuccessResponseFacade;

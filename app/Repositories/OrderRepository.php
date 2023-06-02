@@ -59,4 +59,11 @@ class OrderRepository extends BaseReadRepository implements ConstraintOrderRepos
 
         return $this->getModel()->insert($payload);
     }
+
+    public function updateStatus(Order $order, StatusOrder $status): Order
+    {
+        $order->status = $status;
+        $order->saveOrFail();
+        return $order;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Constraint;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface BaseReadRepository extends BaseRepository
@@ -13,4 +14,10 @@ interface BaseReadRepository extends BaseRepository
         ?string $sortBy = null,
         string $sortType = 'asc'
     ): LengthAwarePaginator;
+
+    public function findOrFail(
+        int $modelId,
+        array $columns = ['*'],
+        array $relations = []
+    ): Model;
 }

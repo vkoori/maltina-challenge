@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Location;
 use App\Enums\StatusOrder;
 use App\Models\Relations\OrderRelations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,4 +41,9 @@ class Order extends Model
         'consume_location' => Location::class,
         'status' => StatusOrder::class,
     ];
+
+    public function scopeUserId(Builder $query, int $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
 }
