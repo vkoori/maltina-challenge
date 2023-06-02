@@ -4,18 +4,23 @@ namespace App\Dto;
 
 use App\Enums\Location;
 use App\Http\Requests\V1\User\Order\Store;
+use App\Http\Requests\V1\User\Order\Update;
 use Illuminate\Support\Collection;
 
 class OrderList
 {
     private Collection $order;
     private array $poolOrders;
-    private string $uuid;
+    private ?string $uuid = null;
     private int $userId;
+    private array $cancels;
 
-    public function __construct(Store $request)
+    public function __construct(Store|Update $request, ?string $invoiceId = null)
     {
         $orders = $request->validated()['order'];
+        $this->cancels = $request->validated()['cancel']['order_id'] ?? [];
+        $this->setInvoiceId(uuid: $invoiceId);
+
         $this->userId = $request->attributes->get('userId');
         $this->order = collect();
 
@@ -40,12 +45,12 @@ class OrderList
         return $this->poolOrders[$key];
     }
 
-    public function setInvoiceId(string $uuid): void
+    public function setInvoiceId(?string $uuid): void
     {
         $this->uuid = $uuid;
     }
 
-    public function getInvoiceId(): string
+    public function getInvoiceId(): ?string
     {
         return $this->uuid;
     }
@@ -53,6 +58,11 @@ class OrderList
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    public function getOrderIdsMustBeCancel(): array
+    {
+        return $this->cancels;
     }
 
     private function fillPoolOrder(array $order): OrderObject

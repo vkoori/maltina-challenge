@@ -26,9 +26,10 @@ class StoreTest extends TestCase
         $this->artisan('migrate --path=/database/migrations/2023_06_02_030132_create_prices_table.php');
         $this->artisan('migrate --path=/database/migrations/2023_06_02_035355_create_types_table.php');
         $this->artisan('migrate --path=/database/migrations/2023_06_02_115527_create_orders_table.php');
+        $this->artisan('migrate --path=/database/migrations/2023_06_03_004646_add_column_orders_table.php');
 
         $this->beforeApplicationDestroyed(function () {
-            $this->artisan('migrate:rollback --step=6');
+            $this->artisan('migrate:rollback --step=7');
         });
     }
 

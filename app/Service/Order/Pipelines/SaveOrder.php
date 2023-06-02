@@ -12,7 +12,7 @@ class SaveOrder
 {
     public function handle(DtoOrderList $dto, Closure $next)
     {
-        $invoiceId = Str::uuid()->toString();
+        $invoiceId = is_null($dto->getInvoiceId()) ? Str::uuid()->toString() : $dto->getInvoiceId();
         $saved = OrderRepositoryFacade::bulkOrderSave(uuid: $invoiceId, items: $dto);
 
         if (!$saved) {

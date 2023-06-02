@@ -91,9 +91,10 @@ class UpdateTest extends TestCase
             'type_id' => $type->id,
             'status' => StatusOrder::WAITING->value,
         ]);
+        $this->setUser(userId: $customer->id);
 
         $response = $this->patch(
-            uri: route(name: 'api.v1.user.orders.update', parameters: ['order' => $order->id]),
+            uri: route(name: 'api.v1.user.orders.update', parameters: ['invoiceId' => $order->invoice_id]),
             data: [
                 'cancel' => [
                     "order_id" => [
@@ -148,9 +149,10 @@ class UpdateTest extends TestCase
             'user_id' => $customer->id,
             'status' => StatusOrder::DELIVERED->value,
         ]);
+        $this->setUser(userId: $customer->id);
 
         $response = $this->patch(
-            uri: route(name: 'api.v1.user.orders.update', parameters: ['order' => $order->id]),
+            uri: route(name: 'api.v1.user.orders.update', parameters: ['invoiceId' => $order->invoice_id]),
             data: [
                 'cancel' => [
                     "order_id" => [
