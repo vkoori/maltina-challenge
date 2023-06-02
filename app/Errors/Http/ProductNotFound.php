@@ -4,13 +4,13 @@ namespace App\Errors\Http;
 
 use App\Exceptions\HttpException;
 
-class JwtException extends HttpException
+class ProductNotFound extends HttpException
 {
     public function __construct()
     {
         parent::__construct(
-            statusCode: 401,
-            message: __('general.invalidHeader')
+            statusCode: 404,
+            message: __('product.notFound')
         );
     }
 }

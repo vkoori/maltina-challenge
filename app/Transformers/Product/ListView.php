@@ -14,12 +14,12 @@ class ListView extends ResourceCollection
     {
         return $this->collection->map(function (Product $product) {
             return [
-                "product_id"        => $product->id,
-                "product_name"      => $product->name,
-                "groups"            => $product->relationLoaded('typeGroup')
+                'product_id'        => $product->id,
+                'product_name'      => $product->name,
+                'groups'            => $product->relationLoaded('typeGroup')
                     ? TypeGroupObjectView::make($product->typeGroup)
                     : null,
-                "prices"            => $product->relationLoaded('prices')
+                'prices'            => $product->relationLoaded('prices')
                     ? PriceListView::make($product->prices)
                     : null
             ];

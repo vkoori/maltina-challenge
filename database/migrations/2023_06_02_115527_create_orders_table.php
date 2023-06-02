@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_groups', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->char('invoice_id', 36)->index();
             $table->unsignedBigInteger('product_id');
-            $table->string('name');
+            $table->unsignedBigInteger('type_id')->nullable();
+            $table->unsignedTinyInteger('count');
+            $table->double('price')->comment('per unit');
+            $table->unsignedTinyInteger('consume_location');
+            $table->unsignedTinyInteger('status');
             $table->timestamps();
 
             $table->foreign('product_id')->on('products')->references('id')->cascadeOnUpdate();
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_groups');
+        Schema::dropIfExists('orders');
     }
 };

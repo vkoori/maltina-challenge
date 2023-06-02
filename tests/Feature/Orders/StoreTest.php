@@ -2,6 +2,10 @@
 
 namespace Tests\Feature\Orders;
 
+use App\Enums\Location;
+use App\Enums\StatusOrder;
+use App\Facade\PriceRepositoryFacade;
+use App\Models\Order as ModelsOrder;
 use App\Models\Price as ModelsPrice;
 use App\Models\Product as ModelsProduct;
 use App\Models\Type as ModelsType;
@@ -14,10 +18,23 @@ class StoreTest extends TestCase
 {
     use DatabaseTransactions, DatabaseMigrations;
 
+    public function runDatabaseMigrations()
+    {
+        $this->artisan('migrate --path=/database/migrations/2023_06_02_025859_create_products_table.php');
+        $this->artisan('migrate --path=/database/migrations/2023_06_02_030111_create_type_groups_table.php');
+        $this->artisan('migrate --path=/database/migrations/2023_06_02_030132_create_prices_table.php');
+        $this->artisan('migrate --path=/database/migrations/2023_06_02_035355_create_types_table.php');
+        $this->artisan('migrate --path=/database/migrations/2023_06_02_115527_create_orders_table.php');
+
+        $this->beforeApplicationDestroyed(function () {
+            $this->artisan('migrate:rollback --step=5');
+        });
+    }
+
     public function test_invalid_header(): void
     {
         $response = $this->post(
-            uri: route(name: 'api.v1.user.order.store')
+            uri: route(name: 'api.v1.user.orders.store')
         );
 
         $response->assertStatus(401);
@@ -41,7 +58,7 @@ class StoreTest extends TestCase
     public function test_send_invalid_body(): void
     {
         $response = $this->post(
-            uri: route(name: 'api.v1.user.order.store'),
+            uri: route(name: 'api.v1.user.orders.store'),
             data: [],
             headers: $this->headerRequest
         );
@@ -54,10 +71,30 @@ class StoreTest extends TestCase
                 "status",
                 "message",
                 "errors" => [
-                    "product_id",
-                    "type_id",
-                    "count",
-                    "consume_location"
+                    "order"
+                ]
+            ]
+        );
+
+        $response = $this->post(
+            uri: route(name: 'api.v1.user.orders.store'),
+            data: [
+                "order" => ["test"]
+            ],
+            headers: $this->headerRequest
+        );
+
+        $response->assertStatus(422);
+
+        $response->assertJsonStructure(
+            structure: [
+                "error",
+                "status",
+                "message",
+                "errors" => [
+                    "order.0.product_id",
+                    "order.0.count",
+                    "order.0.consume_location"
                 ]
             ]
         );
@@ -68,17 +105,21 @@ class StoreTest extends TestCase
         $this->createProductWithSingleVariety();
 
         $response = $this->post(
-            uri: route(name: 'api.v1.user.order.store'),
+            uri: route(name: 'api.v1.user.orders.store'),
             data: [
-                'product_id' => 1,
-                'type_id' => 2,
-                'count' => 1,
-                'consume_location' => Location::IN_SHOP
+                'order' => [
+                    [
+                        'product_id' => 1,
+                        'type_id' => 2,
+                        'count' => 1,
+                        'consume_location' => Location::IN_SHOP->value
+                    ]
+                ]
             ],
             headers: $this->headerRequest
         );
 
-        $response->assertStatus(400);
+        $response->assertStatus(404);
 
         $response->assertJsonStructure(
             structure: [
@@ -101,12 +142,16 @@ class StoreTest extends TestCase
         $this->createProductWithSingleVariety();
 
         $response = $this->post(
-            uri: route(name: 'api.v1.user.order.store'),
+            uri: route(name: 'api.v1.user.orders.store'),
             data: [
-                'product_id' => 1,
-                'type_id' => 1,
-                'count' => 1,
-                'consume_location' => Location::IN_SHOP
+                'order' => [
+                    [
+                        'product_id' => 1,
+                        'type_id' => 1,
+                        'count' => 1,
+                        'consume_location' => Location::IN_SHOP->value
+                    ]
+                ]
             ],
             headers: $this->headerRequest
         );
@@ -119,32 +164,22 @@ class StoreTest extends TestCase
                 "status",
                 "message",
                 "data" => [
-                    "paginate" => [
-                        "currentPage",
-                        "lastPage",
-                        "total",
-                    ],
-                    "data",
+                    "invoiceId"
                 ]
-            ],
-            responseData: [
-                "error" => false,
-                "status" => 200,
-                "message" => __('general.success'),
-                "errors" => []
             ]
         );
 
-        $order = Order::firstOrFail();
+        $order = ModelsOrder::firstOrFail();
         $price = PriceRepositoryFacade::getPrice(productId: 1, typeId: 1);
 
+        $this->assertEquals(expected: $order->invoice_id, actual: $response->json()['data']['invoiceId']);
         $this->assertEquals(expected: $order->product_id, actual: 1);
         $this->assertEquals(expected: $order->type_id, actual: 1);
         $this->assertEquals(expected: $order->count, actual: 1);
         $this->assertEquals(expected: $order->consume_location, actual: Location::IN_SHOP);
-        $this->assertEquals(expected: $order->status, actual: Status::WAITING);
+        $this->assertEquals(expected: $order->status, actual: StatusOrder::WAITING);
         $this->assertEquals(expected: $order->price, actual: $price);
-        $this->assertEquals(expected: Order::count(), actual: 1);
+        $this->assertEquals(expected: ModelsOrder::count(), actual: 1);
     }
 
     private function createProductWithSingleVariety()

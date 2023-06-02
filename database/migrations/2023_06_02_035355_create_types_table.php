@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
 
-            $table->foreign('type_group_id')->on('type_groups')->references('id')->cascadeOnDelete();
+            $table->foreign('type_group_id')->on('type_groups')->references('id')->cascadeOnUpdate();
         });
     }
 
