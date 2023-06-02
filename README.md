@@ -1,7 +1,8 @@
 ## Assumptions
 
 1. I imagined that each product only accepts one group of types. If the number of type groups was unlimited, I would use non-relational databases.
-2. Everything sent in the Authorization header is valid.
+2. Everything sent in the Authorization header is valid. (we can modify `JwtChecker::class`)
+3. `userId` is always equal to 1. (we can modify `JwtChecker::class`)
 
 ## Installation
 ![Installation](./storage/readme/docker.png "Dockerize")
@@ -34,4 +35,6 @@ docker exec -it maltina-php php artisan test --testsuite Feature --path tests/Fe
 
 ### Postman
 
-`https://www.postman.com/maltina/workspace/challenge`
+```shell
+https://www.postman.com/maltina/workspace/challenge
+```

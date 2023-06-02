@@ -9,6 +9,7 @@ use App\Models\Order;
 interface OrderRepository extends BaseReadRepository
 {
     public function singleOrderSave(
+        int $userId,
         string $uuid,
         int $productId,
         ?int $typeId,

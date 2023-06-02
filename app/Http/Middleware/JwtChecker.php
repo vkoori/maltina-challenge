@@ -17,6 +17,8 @@ class JwtChecker
             throw new JwtException;
         }
 
+        $request->attributes->set('userId', 1);
+
         return $next($request);
     }
 }
