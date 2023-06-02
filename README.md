@@ -13,9 +13,9 @@
 3. Run `docker composer up -d`. you can use mirror registry for pulling image like as [docker.ir](https://docker.ir/).
 
 ### Attention
-1. Set `maltina.local` in your `hosts` file. which should point to 127.0.0.1
+1. Set `maltina.local` and `mail.maltina.local` in your `hosts` file. which should point to 127.0.0.1
 2. In `docker compose` we mounted all entire files with container, ***so we override the file permissions*** and need add permission to `storage` and `bootstrap` manually (in real project, we don't sync these directories).
-3. If you want to use https. Place the corresponding keys in [path](./.docker/nginx/ssl/) and activate [this](./.docker/nginx/conf.d/maltina.old) configuration, then restart nginx.
+3. If you want to use https. Place the corresponding keys in [path](./.docker/nginx/ssl/) and activate [this](./.docker/nginx/conf.d/maltina.old) and [this](./.docker/nginx/conf.d/mail.maltina.old) configurations, then restart nginx.
 
 ## Running test
 
@@ -32,6 +32,6 @@ for run test follow this steps:
 docker exec -it maltina-php php artisan test --testsuite Feature --path tests/Feature/
 ```
 
-### Postamn
+### Postman
 
 `https://www.postman.com/maltina/workspace/challenge`
