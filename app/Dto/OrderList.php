@@ -3,7 +3,7 @@
 namespace App\Dto;
 
 use App\Enums\Location;
-use App\Http\Requests\V1\Order\Store;
+use App\Http\Requests\V1\User\Order\Store;
 use Illuminate\Support\Collection;
 
 class OrderList

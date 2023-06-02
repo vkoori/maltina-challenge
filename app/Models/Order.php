@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\Location;
 use App\Enums\StatusOrder;
+use App\Models\Relations\OrderRelations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,12 +24,26 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, OrderRelations;
 
-    protected $fillable = ['user_id', 'product_id', 'type_id', 'count', 'price', 'consume_location', 'status'];
+    protected $fillable = [
+        'user_id',
+        'invoice_id',
+        'product_id',
+        'type_id',
+        'count',
+        'price',
+        'consume_location',
+        'status'
+    ];
 
     protected $casts = [
         'consume_location' => Location::class,
         'status' => StatusOrder::class,
     ];
+
+    public function scopeUserId(Builder $query, int $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
 }

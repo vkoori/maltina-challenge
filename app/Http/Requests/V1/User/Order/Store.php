@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\V1\Order;
+namespace App\Http\Requests\V1\User\Order;
 
 use App\Enums\Location;
 use App\Traits\InvalidFormRequest;

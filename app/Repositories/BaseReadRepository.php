@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Constraint\BaseReadRepository as ConstraintBaseReadRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class BaseReadRepository extends BaseRepository implements ConstraintBaseReadRepository
@@ -19,5 +20,13 @@ class BaseReadRepository extends BaseRepository implements ConstraintBaseReadRep
             ->with($relations)
             ->orderBy($sortBy ? $sortBy : $this->model->getQualifiedKeyName(), $sortType)
             ->paginate($perPage, $columns);
+    }
+
+    public function findOrFail(
+        int $modelId,
+        array $columns = ['*'],
+        array $relations = []
+    ): Model {
+        return $this->getModel()->with($relations)->findOrFail($modelId, $columns);
     }
 }

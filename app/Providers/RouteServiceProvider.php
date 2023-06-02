@@ -39,6 +39,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api/v1/user')
                 ->name('api.v1.user.')
                 ->group(base_path('routes/v1/user.php'));
+            
+            Route::middleware(['api', JwtChecker::class])
+                ->prefix('api/v1/admin')
+                ->name('api.v1.admin.')
+                ->group(base_path('routes/v1/admin.php'));
         });
     }
 }

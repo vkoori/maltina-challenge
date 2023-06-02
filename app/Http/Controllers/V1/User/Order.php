@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\V1;
+namespace App\Http\Controllers\V1\User;
 
 use App\Dto\OrderList as DtoOrderList;
 use App\Facade\SuccessResponseFacade;
-use App\Http\Requests\V1\Order\Store;
+use App\Http\Requests\V1\User\Order\Store;
 use App\Service\Order\Pipelines\PriceFinder;
 use App\Service\Order\Pipelines\SaveOrder;
 use Illuminate\Pipeline\Pipeline;

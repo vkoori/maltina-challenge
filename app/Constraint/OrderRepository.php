@@ -4,6 +4,7 @@ namespace App\Constraint;
 
 use App\Dto\OrderList as DtoOrderList;
 use App\Enums\Location;
+use App\Enums\StatusOrder;
 use App\Models\Order;
 
 interface OrderRepository extends BaseReadRepository
@@ -17,6 +18,6 @@ interface OrderRepository extends BaseReadRepository
         float $price,
         Location $consumeLocation
     ): Order;
-
     public function bulkOrderSave(string $uuid, DtoOrderList $items): bool;
+    public function updateStatus(Order $order, StatusOrder $status): Order;
 }
