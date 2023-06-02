@@ -14,6 +14,7 @@ class ObjectView extends JsonResource
     {
         return [
             'order_id'      => $this->id,
+            'invoice_id'    => $this->invoice_id,
             'product'       => $this->whenLoaded(
                 relationship: 'product',
                 value: fn () => ProductObjectView::make($this->product),

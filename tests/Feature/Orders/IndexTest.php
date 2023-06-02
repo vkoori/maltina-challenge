@@ -45,6 +45,7 @@ class IndexTest extends TestCase
                 "data" => [
                     [
                         "order_id",
+                        "invoice_id",
                         "product" => [
                             "product_id",
                             "product_name",
