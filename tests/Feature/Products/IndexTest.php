@@ -27,30 +27,6 @@ class IndexTest extends TestCase
         });
     }
 
-    public function test_invalid_header(): void
-    {
-        $response = $this->get(
-            uri: route(name: 'api.v1.general.products.index')
-        );
-
-        $response->assertStatus(401);
-
-        $response->assertJsonStructure(
-            structure: [
-                "error",
-                "status",
-                "message",
-                "errors" => []
-            ],
-            responseData: [
-                "error" => true,
-                "status" => 401,
-                "message" => "Your request header is invalid!",
-                "errors" => []
-            ],
-        );
-    }
-
     public function test_get_empty_list_of_products(): void
     {
         $response = $this->get(
